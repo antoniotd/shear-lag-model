@@ -5,7 +5,12 @@ import matplotlib.pyplot as plt
 # 1. Page Configuration
 st.set_page_config(page_title="Shear-Lag Interface Simulator", layout="wide")
 
-st.title("🔬 Nano-Engineered Interface Simulator")
+# Custom Navigation Sidebar Replacement
+st.sidebar.page_link("app.py", label="Simulator", icon="🔬")
+st.sidebar.page_link("pages/1_curve fitter.py", label="Curve Fitter", icon="🎯")
+st.sidebar.write("---")
+
+st.title("Interface Simulator")
 st.markdown("""
 This simulator uses the analytical **Shear-Lag Model** to show how tensile and shear stresses 
 distribute along a carbon fiber filament embedded in a cement matrix. 
@@ -63,15 +68,35 @@ except ZeroDivisionError:
     st.error("Math Error: Check that your input values are greater than zero.")
 
 # 4. KPI Metrics Dashboard Display
+# Injecting custom CSS to lock column widths and stop layout shifting/jittering
+st.markdown("""
+    <style>
+    [data-testid="stMetric"] {
+        width: 100% !important;
+        min-width: 200px !important;
+        display: inline-block !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.metric(label="Calculated System Modality (ω)", value=f"{omega:.4f}")
+    st.metric(
+        label="System Modality (ω)", 
+        value=f"{omega:.4f}"
+    )
 with col2:
-    st.metric(label="Tensile Stress at Crack Face (σ_0)", value=f"{peak_sigma:.2f} MPa")
+    st.metric(
+        label="Tensile Stress (σ_0)", 
+        value=f"{peak_sigma:.2f} MPa",
+        help="Tensile Stress at Crack Face"
+    )
 with col3:
-    st.metric(label="Peak Interfacial Shear Stress (τ_max)", value=f"{peak_tau:.2f} MPa")
-
-st.write("---")
+    st.metric(
+        label="Shear Stress (τ_max)", 
+        value=f"{peak_tau:.2f} MPa",
+        help="Peak Interfacial Shear Stress"
+    )
 
 # 5. Data Visualization (Plotting Engine)
 # Set up side-by-side Matplotlib subplots

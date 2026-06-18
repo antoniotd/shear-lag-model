@@ -10,6 +10,11 @@ from sklearn.metrics import r2_score
 # 1. Page Configuration
 st.set_page_config(page_title="Interfacial Curve Fitter", layout="wide")
 
+# Custom Navigation Sidebar Replacement
+st.sidebar.page_link("app.py", label="Simulator", icon="🔬")
+st.sidebar.page_link("pages/1_curve fitter.py", label="Curve Fitter", icon="🎯")
+st.sidebar.write("---")
+
 st.title("Interfacial Curve Fitter")
 st.markdown("""
 Upload pull-out data (**Force vs. Displacement**) from your laboratory tests. 
